@@ -6,7 +6,6 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,22 +27,18 @@ public class PaymentController {
     private OrderItemRepository orderItemRepo;
 
     @Value("${cashfree.client-id:#{null}}")
-    private String CLIENT_ID;
+    private String clientId;
 
     @Value("${cashfree.client-secret:#{null}}")
-    private String CLIENT_SECRET;
+    private String clientSecret;
 
     @PostConstruct
     private void initKeys() {
-        // If Spring @Value didn't load, fallback to environment variables
-        if (CLIENT_ID == null || CLIENT_SECRET == null) {
-            CLIENT_ID = System.getenv("CASHFREE_CLIENT_ID");
-            CLIENT_SECRET = System.getenv("CASHFREE_CLIENT_SECRET");
+        if (clientId == null || clientSecret == null) {
+            clientId = System.getenv("CASHFREE_CLIENT_ID");
+            clientSecret = System.getenv("CASHFREE_CLIENT_SECRET");
         }
     }
-
-
-
 
     // -------------------- PLACE ORDER --------------------
     @PostMapping("/place/{userId}")
@@ -89,6 +84,9 @@ public class PaymentController {
             @RequestBody Map<String, Object> request
     ) {
         try {
+            final String CLIENT_ID = this.clientId;
+            final String CLIENT_SECRET = this.clientSecret;
+
             String orderAmountStr = Objects.toString(request.get("orderAmount"), null);
             if (orderAmountStr == null) {
                 return ResponseEntity.status(400).body(Map.of("error", "Missing order amount"));
