@@ -4,6 +4,8 @@ import com.signuplogin.demo.entity.*;
 import com.signuplogin.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,9 +26,12 @@ public class PaymentController {
     @Autowired
     private OrderItemRepository orderItemRepo;
 
-    // ✅ Read env variables safely at runtime
-    String clientId = System.getenv("CASHFREE_CLIENT_ID");
-    String clientSecret = System.getenv("CASHFREE_CLIENT_SECRET");
+    @Value("${cashfree.client-id}")
+    private String CLIENT_ID;
+
+    @Value("${cashfree.client-secret}")
+    private String CLIENT_SECRET;
+
 
 
     // -------------------- PLACE ORDER --------------------
