@@ -10,6 +10,8 @@ public class PracticeApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PracticeApplication.class, args);
+        System.out.println("DB URL: " + System.getenv("DBURL"));
+
 
         // Correct way: get the driver via DataSource
         // Or use ApplicationContext to get @Value
