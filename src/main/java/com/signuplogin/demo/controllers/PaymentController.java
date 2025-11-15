@@ -2,6 +2,7 @@ package com.signuplogin.demo.controllers;
 
 import com.signuplogin.demo.entity.*;
 import com.signuplogin.demo.repository.*;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,11 +27,21 @@ public class PaymentController {
     @Autowired
     private OrderItemRepository orderItemRepo;
 
-    @Value("${cashfree.client-id}")
+    @Value("${cashfree.client-id:#{null}}")
     private String CLIENT_ID;
 
-    @Value("${cashfree.client-secret}")
+    @Value("${cashfree.client-secret:#{null}}")
     private String CLIENT_SECRET;
+
+    @PostConstruct
+    private void initKeys() {
+        // If Spring @Value didn't load, fallback to environment variables
+        if (CLIENT_ID == null || CLIENT_SECRET == null) {
+            CLIENT_ID = System.getenv("CASHFREE_CLIENT_ID");
+            CLIENT_SECRET = System.getenv("CASHFREE_CLIENT_SECRET");
+        }
+    }
+
 
 
 
