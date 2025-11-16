@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-@CrossOrigin(origins = "https://bookstore-frontend-eta-six.vercel.app/")
+@CrossOrigin(origins = "https://bookstore-frontend-eta-six.vercel.app")
 @RestController
 @RequestMapping("/api")
 public class controllerr {
