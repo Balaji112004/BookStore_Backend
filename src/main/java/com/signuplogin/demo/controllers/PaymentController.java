@@ -109,7 +109,7 @@ public class PaymentController {
             payload.put("order_currency", "INR");
 
             Map<String, Object> orderMeta = new HashMap<>();
-            orderMeta.put("return_url", "http://localhost:5173/payment-success?orderId=" + orderId);
+            orderMeta.put("return_url", "https://bookstorebackend-production-f262.up.railway.app/payment-success?orderId=" + orderId);
             payload.put("order_meta", orderMeta);
 
             Map<String, String> customer = new HashMap<>();
